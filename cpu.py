@@ -1,3 +1,6 @@
+import sys
+import time
+
 class CPU:
     def __init__(self):
         #Program counter
@@ -19,19 +22,10 @@ class CPU:
         self.ZF = False
         self.HALT = False
 
-    def loadProgram(self, filename=""):
+    def loadProgram(self, filename):
         #Load your own program manually
-        if filename == "":
-            #little program that adds 24 and 18
-            """
-            self.memory[0x0] = 0x1E
-            self.memory[0x1] = 0x2F
-            self.memory[0x2] = 0xE0
-            self.memory[0x3] = 0xF0
-
-            self.memory[0xE] = 24;
-            self.memory[0xF] = 18;
-            """
+        if filename == "default":
+            #prints triangular numbers
 
             self.memory[0x0] = 0x1F
             self.memory[0x1] = 0x2E
@@ -52,9 +46,13 @@ class CPU:
 
         else:
             #if the file name was specified open it
-            with open(filename, "rb") as f:
-                buffer = f.read()
-                f.close()
+            try:
+                with open(filename, "rb") as f:
+                    buffer = f.read()
+                    f.close()
+            except:
+                print(f"Error: cannot open file: {filename}")
+                exit()
 
             for i in range(16):
                 self.memory[i] = buffer[i];
@@ -109,9 +107,9 @@ class CPU:
             print(f"Illegal opcode {hex(opcode)}")
 
 
-def main():
+def main(filename, speed):
     cpu = CPU()
-    cpu.loadProgram()
+    cpu.loadProgram(filename)
 
     while not cpu.HALT:
         #fetch instruction into Instruction Register
@@ -119,9 +117,25 @@ def main():
             cpu.IR = cpu.memory[cpu.pc]
             cpu.execute()
             cpu.pc += 0b0001
+            time.sleep(float(speed)) #clock speed
         except Exception as e:
             print("HALTING System...")
             break;
 
 if __name__ == "__main__":
-    main()
+    try:
+        filename = sys.argv[1]
+        speed = sys.argv[2]
+    except:
+        print(" ------------------------------------------- ")
+        print("|Usage: python3 cpu.py <bin file> <speed>   |")
+        print(" ------------------------------------------- \n")
+        print(" ------------------------------------------- ")
+        print("| <bin file> : compiled asm file            |\n| <speed> : (0 to 1), 0 fastest, 1 slowest  |\n")
+        print("| Default program: Triangular Numbers       |\n| Run: python3 cpu.py default <speed>       |")
+        print(" ------------------------------------------- \n")
+        print(" ------------------------------------------- ")
+        print("| Example: python3 cpu.py fib.bin 0.05      |")
+        print(" ------------------------------------------- \n")
+        exit()
+    main(filename, speed)
