@@ -1,6 +1,6 @@
 # EaterEmulator - Ben Eater's 8 Bit Breadboard CPU Emulator in Python
 
-TinyE8 emulates [Ben Eater's](https://www.youtube.com/channel/UCS0N5baNlQWJCUrhCEo8WlA) 8 bit breadboard CPU.
+EaterEmulator emulates [Ben Eater's](https://www.youtube.com/channel/UCS0N5baNlQWJCUrhCEo8WlA) 8 bit breadboard CPU.
 
 ## Here's a screenshot
 ![screenshot](https://github.com/jaychandra6/EaterEmulator/blob/main/screenshot.png)
