@@ -75,7 +75,7 @@ class CPU:
             self.ZF = self.A == 0
         elif(opcode == 0x3):
             #SUB
-            self.CF = (self.A - self.memory[self.IR & 0x0F]) > 255
+            self.CF = (self.A - self.memory[self.IR & 0x0F]) < 0
             self.B = self.memory[self.IR & 0x0F]
             self.A = self.A - self.B
             self.ZF = self.A == 0
