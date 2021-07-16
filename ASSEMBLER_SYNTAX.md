@@ -21,15 +21,15 @@ The computer only has a 3 char 7 Segment LED Display allowing for output of numb
 
 Executing the assembler without any arguments will issue this help message.
 
-``` shell
+``` text
 ~ python3 eas.py
 Usage: python3 eas.py <asm filename> -o <bin filename>
 ```
 
 A more complete example:
 
-``` shell
-python3 eas.py programs/fib.asm -o programs/fib.bin
+``` text
+~ python3 eas.py programs/fib.asm -o programs/fib.bin
 Pass One: Find labels
 Pass two: Assemble
 0 LDI 1
@@ -130,7 +130,7 @@ In this example, the labels: `start`, `counter`, and `increment` all act as poin
 
 ### Whitespace
 
-At least one whitespace character is required between menmonics that require arguments and their arugments.  You can use more than one whitespace character - the assembler treats all continues whitespace a single separater for tokenizing terms.
+At least one whitespace character is required between menmonics that require arguments and their arguments.  You can use more than one whitespace character - the assembler treats all continuou whitespace a single separator for tokenizing terms.
 
 ### Addressing Modes
 
