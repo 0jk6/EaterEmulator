@@ -3,19 +3,14 @@ start:
 printup:
     OUT
 up:
-    ADD 15
+    ADD increment
     JC down
     JMP printup
 down:
-    SUB 15
+    SUB increment
 printdown:
     OUT
     JZ up
     JMP down
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
-    NOP
+increment:
     3
