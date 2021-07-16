@@ -35,6 +35,7 @@ def assemble(inFilename, outFilename):
     output = []
     labels = {}
     re_label = re.compile("^\w*:$")
+    re_comment = re.compile("^;.*$")
     pc = 0
     jumps = ("JMP", "JC", "JZ")
 
@@ -42,6 +43,8 @@ def assemble(inFilename, outFilename):
     for i in range(len(tokens)):
         if re_label.match(tokens[i]):
             labels[tokens[i][:-1]] = pc
+        elif re_comment.match(tokens[i]):
+            continue
         else:
             pc = pc + 1
     pc = 0 #set back to zero so we can show line numbers on output.
@@ -51,7 +54,7 @@ def assemble(inFilename, outFilename):
     #values based on instruction set and append it to output
     for i in range(len(tokens)):
         try:
-            if re_label.match(tokens[i]): #skip labels altogether
+            if re_label.match(tokens[i]) or re_comment.match(tokens[i]): #skip labels and comments altogether
                 continue
             else:
                 ins = tokens[i].split()
@@ -66,7 +69,7 @@ def assemble(inFilename, outFilename):
                         output.append(hex(instructions[ins[0]]<<4 | int(ins[1])))
                         print(pc, ins[0], ins[1])
                 else:
-                    if(len(ins)==1):
+                    if(len(ins)==1) or re_comment.match(ins[1]):
                         output.append(hex(int(ins[0])))
                         print(pc, ins[0])
                 pc = pc + 1
