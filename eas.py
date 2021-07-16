@@ -66,8 +66,12 @@ def assemble(inFilename, outFilename):
                         output.append(hex(instructions[ins[0]]<<4 | 0 ))
                         print(pc, ins[0])
                     else:
-                        output.append(hex(instructions[ins[0]]<<4 | int(ins[1])))
-                        print(pc, ins[0], ins[1])
+                        if ins[1] in labels:
+                            output.append(hex(instructions[ins[0]]<<4 | int(labels[ins[1]])))
+                            print(pc, ins[0], labels[ins[1]])
+                        else:
+                            output.append(hex(instructions[ins[0]]<<4 | int(ins[1])))
+                            print(pc, ins[0], ins[1])
                 else:
                     if(len(ins)==1) or re_comment.match(ins[1]):
                         output.append(hex(int(ins[0])))
