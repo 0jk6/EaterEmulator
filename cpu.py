@@ -55,11 +55,14 @@ class CPU:
                 exit()
 
             for i in range(16):
-                self.memory[i] = buffer[i];
+                try:
+                    self.memory[i] = buffer[i]
+                except IndexError as e:
+                    self.memory[i] = hex(0)
 
     def execute(self):
         #decode instruction from opcode by masking higher 4 bits
-        opcode = (self.IR & 0xF0) >> 4;
+        opcode = (self.IR & 0xF0) >> 4
 
         if(opcode == 0x0):
             #NOP
@@ -75,7 +78,7 @@ class CPU:
             self.ZF = self.A == 0
         elif(opcode == 0x3):
             #SUB
-            self.CF = (self.A - self.memory[self.IR & 0x0F]) > 255
+            self.CF = (self.A - self.memory[self.IR & 0x0F]) < 0
             self.B = self.memory[self.IR & 0x0F]
             self.A = self.A - self.B
             self.ZF = self.A == 0

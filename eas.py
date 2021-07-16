@@ -1,4 +1,5 @@
 #eater assembler
+import re
 import sys
 
 def assemble(inFilename, outFilename):
@@ -32,34 +33,60 @@ def assemble(inFilename, outFilename):
 
     #output buffer
     output = []
+    labels = {}
+    re_label = re.compile("^\w*:$")
+    re_comment = re.compile("^;.*$")
+    pc = 0
 
+    print("Pass One: Find labels")
+    for i in range(len(tokens)):
+        if re_label.match(tokens[i]):
+            labels[tokens[i][:-1]] = pc
+        elif re_comment.match(tokens[i]):
+            continue
+        else:
+            pc = pc + 1
+    pc = 0 #set back to zero so we can show line numbers on output.
+
+    print("Pass two: Assemble")
     #iterate through the tokens, convert them to hexadecimal
     #values based on instruction set and append it to output
-    for i in range(16):
+    for i in range(len(tokens)):
         try:
-            ins = tokens[i].split(" ")
-            if(ins[0] in instructions):
-                if(len(ins)==1):
-                    output.append(hex(instructions[ins[0]]<<4 | 0 ))
-                    #print(hex(instructions[ins[0]]<<4 | 0 ))
-                else:
-                    output.append(hex(instructions[ins[0]]<<4 | int(ins[1])))
-                    #print(hex(instructions[ins[0]]<<4 | int(ins[1])))
+            if re_label.match(tokens[i]) or re_comment.match(tokens[i]): #skip labels and comments altogether
+                continue
             else:
-                if(len(ins)==1):
-                    output.append(hex(int(ins[0])))
-                    #print(hex(int(ins[0])))
+                ins = tokens[i].split()
+                if(ins[0] in instructions):
+                    if(len(ins)==1):
+                        output.append(hex(instructions[ins[0]]<<4 | 0 ))
+                        print(pc, ins[0])
+                    else:
+                        if ins[1] in labels:
+                            output.append(hex(instructions[ins[0]]<<4 | int(labels[ins[1]])))
+                            print(pc, ins[0], labels[ins[1]])
+                        else:
+                            output.append(hex(instructions[ins[0]]<<4 | int(ins[1])))
+                            print(pc, ins[0], ins[1])
+                else:
+                    if(len(ins)==1) or re_comment.match(ins[1]):
+                        output.append(hex(int(ins[0])))
+                        print(pc, ins[0])
+                pc = pc + 1
         except Exception as e:
+            #print(type(e))
             output.append(hex(0))
 
 
     #write the output buffer to a bin file by converting it into to bytes
+    print("\n\nHex output")
     with open(outFilename, "wb") as f:
         for i in output:
             print(i)
             f.write(bytes((int(i,16),)))
         f.close()
-
+    print("\n\nLabels Hashmap")
+    print(labels)
 
 
 if(len(sys.argv) != 4):
