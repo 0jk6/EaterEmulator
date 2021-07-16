@@ -37,7 +37,6 @@ def assemble(inFilename, outFilename):
     re_label = re.compile("^\w*:$")
     re_comment = re.compile("^;.*$")
     pc = 0
-    jumps = ("JMP", "JC", "JZ")
 
     print("Pass One: Find labels")
     for i in range(len(tokens)):
@@ -59,10 +58,7 @@ def assemble(inFilename, outFilename):
             else:
                 ins = tokens[i].split()
                 if(ins[0] in instructions):
-                    if ins[0] in jumps:
-                        output.append(hex(instructions[ins[0]]<<4 | int(labels[ins[1]])))
-                        print(pc, ins[0], labels[ins[1]])
-                    elif(len(ins)==1):
+                    if(len(ins)==1):
                         output.append(hex(instructions[ins[0]]<<4 | 0 ))
                         print(pc, ins[0])
                     else:

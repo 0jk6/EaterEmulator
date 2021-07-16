@@ -5,14 +5,14 @@
 ; loop counter value reaches -1
 start:
     LDA factor1
-    SUB decrement  ; decrement by value at address 15
+    SUB 15  ; decrement by value at address 15
     NOP
     JC  end
     STA factor1
     LDA product
     ADD factor2
     STA product
-    JMP start
+    JMP 0
 end:
     LDA 12
     OUT
