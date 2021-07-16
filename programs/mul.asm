@@ -5,16 +5,15 @@
 ; loop counter value reaches -1
 start:
     LDA factor1
-    SUB 15  ; decrement by value at address 15
-    NOP
+    SUB decrement  ; example of direct addressing working
     JC  end
     STA factor1
     LDA product
     ADD factor2
     STA product
-    JMP 0
+    JMP start   ; example of direct addressing working.
 end:
-    LDA 12
+    LDA product
     OUT
     HLT
 ; these are in effect data labels.
