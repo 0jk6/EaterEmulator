@@ -88,6 +88,16 @@ def assemble(inFilename, outFilename):
     print("\n\nLabels Hashmap")
     print(labels)
 
+    print("\n\nBinary Code for programming with Dip Switches")
+    print("\nAddr : Inst : Data")
+    print("==== : ==== : ====")
+    pc = 0
+    for i in output:
+        address     = bin(pc)[2:].zfill(4)
+        instruction = bin((int(i,16) & 0b11110000) >> 4)[2:].zfill(4)
+        data        = bin((int(i,16) & 0b00001111))[2:].zfill(4)
+        print(address, ":", instruction , ":", data )
+        pc = pc + 1
 
 if(len(sys.argv) != 4):
     print("Usage: python3 eas.py <asm filename> -o <bin filename>")

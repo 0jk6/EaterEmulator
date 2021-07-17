@@ -3,26 +3,27 @@
 EaterEmulator emulates [Ben Eater's](https://www.youtube.com/channel/UCS0N5baNlQWJCUrhCEo8WlA) 8 bit breadboard CPU.
 
 ## Here's a screenshot
+
 ![screenshot](https://github.com/jaychandra6/EaterEmulator/blob/main/screenshot.png)
 
 ## Instruction set
-```
- -------------------------------------------------------------------------------------------------------------------------------
-| 0000 - NOP --> No Operation
-| 0001 - LDA --> Load contents of a memory address XXXX into A register
-| 0010 - ADD --> Load contents of a memory address XXXX into B register, then performs A+B and stores the result in A register
-| 0011 - SUB --> Load contents of a memory address XXXX into B register, then performs A-B and stores the result in A register
-| 0100 - STA --> Store contents of A register at memory address XXXX
-| 0101 - LDI --> Load 4 bit immediate value into A register
-| 0110 - JMP --> Unconditional jump: sets program counter to XXXX and executes from there
-| 0111 - JC  --> Jump if carry: sets program counter to XXXX when carry flag is set and executes from there
-| 1000 - JZ  --> Jump if zero: sets program counter to XXXX when zero flag is set and executes from there
-| 1110 - OUT --> Output contents of A register to 7 segment display, in our case, we'll print it on console
-| 1111 - HLT --> Halts the execution
- -------------------------------------------------------------------------------------------------------------------------------
-```
 
-#### Implemented Instructions:
+| OpCode | Menmonic | Description
+|--------|----------|------------
+| 0000   | NOP      | No Operation
+| 0001   | LDA      | Load contents of a memory address XXXX into A register
+| 0010   | ADD      | Load contents of a memory address XXXX into B register, then performs A+B and stores the result in A register
+| 0011   | SUB      | Load contents of a memory address XXXX into B register, then performs A-B and stores the result in A register
+| 0100   | STA      | Store contents of A register at memory address XXXX
+| 0101   | LDI      | Load 4 bit immediate value into A register
+| 0110   | JMP      | Unconditional jump: sets program counter to XXXX and executes from there
+| 0111   | JC       | Jump if carry: sets program counter to XXXX when carry flag is set and executes from there
+| 1000   | JZ       | Jump if zero: sets program counter to XXXX when zero flag is set and executes from there
+| 1110   | OUT      | Output contents of A register to 7 segment display, in our case, we'll print it on console
+| 1111   | HLT      | Halts the execution
+
+### Implemented Instructions
+
 - [x] NOP
 - [x] LDA
 - [x] ADD
@@ -37,12 +38,14 @@ EaterEmulator emulates [Ben Eater's](https://www.youtube.com/channel/UCS0N5baNlQ
 
 ## Loading your own program
 
-#### Loading your own program from `.bin` file
+### Loading your own program from `.bin` file\
+
 Create .asm file and write your assembly program in it.
 The program should contain atleast 16 lines and each line should consist of 1 or 2 instructions
 
 For example: If you want to write a program that adds 7 and 3 and then subtracts 2 from it, it should something like this
-```
+
+``` asm
 LDA 8
 ADD 9
 SUB 10
@@ -73,8 +76,7 @@ Rest of the lines contain `NOP` instructions.
 
 At `line 8`, there is `7`, this value will be used when `line 0` gets executed.
 At `line 9`, there is `3`, this value will be used when `line 1` gets executed.
-At `line 10`, there is `2`, this value will be used when `line 3` gets executed. 
-
+At `line 10`, there is `2`, this value will be used when `line 3` gets executed.
 
 In this manner, you have to write your assembly program.
 And make sure that there are no extra spaces other than spaces between instruction and memory addresses
@@ -87,7 +89,6 @@ This will generate a `.bin` file. You can run this using the emulator with the f
 
 `cpu.py add.bin 0.05` where `0.05` is the execution speed.
 
-
 #### Manually load your own program
 
 Go to `cpu.py` file in `loadProgram()` function, add your own program after line 24
@@ -95,7 +96,8 @@ Go to `cpu.py` file in `loadProgram()` function, add your own program after line
 For example:
 
 Loading a program that adds 7 and 3 would be as follows
-```
+
+``` text
 LDA 1000
 ADD 1001
 OUT 0000
@@ -103,8 +105,10 @@ OUT 0000
 ;at address 1000, we'll store 7
 ;and at address 1001, we'll store 3
 ```
+
 In `cpu.py` file, you should write the code as follows
-```
+
+``` text
 self.memory[0b0000] = 0b00011000; //LDA 1000 or load 7 into A register from memory[0b1000] or memory[8]
 self.memory[0b0001] = 0b00101001; //ADD 1001 or load 3 into B register, then ADD and store it in A
 self.memory[0b0010] = 0b11100000; //OUT 0000 or OUTPUT A register contents
@@ -113,10 +117,12 @@ self.memory[0b0010] = 0b11100000; //OUT 0000 or OUTPUT A register contents
 self.memory[0b1000] = 7; //store 7 at memory[8], so that we can access it using LDA instruction
 self.memory[0b1001] = 3; //store 3 at memory[9], so that we can access it using ADD instruction
 ```
+
 You can write numbers in binary format or hexadecimal format
 
 Here's a program that prints Triangular numbers upto 255,
-```
+
+``` text
 self.memory[0x0] = 0x1F
 self.memory[0x1] = 0x2E
 self.memory[0x2] = 0x79
@@ -138,6 +144,7 @@ self.memory[0xF] = 0
 I hope you understand it.
 
 ## Running th code
+
 Installation of `Python 3.x` version is required.
-Clone this repo `git clone https://github.com/jaychandra6/EaterEmulator` and run `python3 cpu.py` on Linux. 
+Clone this repo `git clone https://github.com/jaychandra6/EaterEmulator` and run `python3 cpu.py` on Linux.
 If you are on Windows make sure that Python is added to your `PATH` and run `python cpu.py`.
