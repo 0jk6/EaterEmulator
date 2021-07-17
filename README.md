@@ -8,7 +8,7 @@ EaterEmulator emulates [Ben Eater's](https://www.youtube.com/channel/UCS0N5baNlQ
 
 ## Instruction set
 
-| OpCode | Menmonic | Description
+| OpCode | Mnemonic | Description
 |--------|----------|------------
 | 0000   | NOP      | No Operation
 | 0001   | LDA      | Load contents of a memory address XXXX into A register
