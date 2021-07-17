@@ -130,7 +130,7 @@ In this example, the labels: `start`, `counter`, and `increment` all act as poin
 
 ### Whitespace
 
-At least one whitespace character is required between menmonics that require arguments and their arguments.  You can use more than one whitespace character - the assembler treats all continuou whitespace a single separator for tokenizing terms.
+At least one whitespace character is required between mnemonics that require arguments and their arguments.  You can use more than one whitespace character - the assembler treats all continuou whitespace a single separator for tokenizing terms.
 
 ### Addressing Modes
 
@@ -152,7 +152,7 @@ increment:
 
 This is the table of instructions that are available.
 
-| Menmonic | Argument         | Description
+| Mnemonic | Argument         | Description
 |----------|------------------|-------
 | NOP      | None             | No Operation
 | LDA      | Address or Label | Load contents of a memory address XXXX into A register
